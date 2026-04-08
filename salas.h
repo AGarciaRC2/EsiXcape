@@ -25,5 +25,5 @@ typedef struct {
 
 int cargar_salas(vector_sala *sala);
 int describir_salas(vector_sala sala, int id_sala);
-
+int entrar_otra_sala(vector_conex *conex, vector_sala *sala, int *salactual);
 #endif
