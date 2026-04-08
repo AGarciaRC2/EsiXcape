@@ -1,8 +1,6 @@
 //atoi= ascii to character
 //strtok: la primera vez le das el nombre de la cadena, la segunda vez le pones null, strtok(NULL,"-")
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+
 #include "salas.h"
 #include "conexiones.h"
 //estructura de la sala.
@@ -13,16 +11,19 @@ int cargar_salas (vector_sala *sala){
     char *token;
     char cadena[512];
     sala->numreg=0;
+    sala->vctr_sala = NULL;
     f_sala = fopen("salas.txt", "r");
     if (f_sala == NULL) {
         return 0; // Error al abrir el fichero
     }
-    //inicializamos el malloc en esta linea.
     //sala vctr sala inicializar a nulo así puedes hacer realloc 
-    sala->vctr_sala=(sala_str *) malloc(1*sizeof(sala_str));
-    while(fgets(sala,sizeof(cadena), f_sala)!=NULL){
+    while(fgets(cadena,sizeof(cadena), f_sala)!=NULL){
         //vamos leyendo poco a poco el archivo en el orden especificado.
         sala->vctr_sala = (sala_str *) realloc(sala->vctr_sala, (sala->numreg+ 1) * sizeof(sala_str));
+        if (sala ->vctr_sala==NULL){
+            fclose(f_sala);
+            return 0;
+        }
         token=strtok(cadena,"-");
         if (token != NULL){
             sala->vctr_sala[sala->numreg].id_sala=atoi(token);
@@ -30,7 +31,8 @@ int cargar_salas (vector_sala *sala){
         //Para cargar el nombre de la sala.
         token=strtok(NULL, "-");
         if (token!=NULL){
-            strncpy(sala->vctr_sala[sala->numreg].nombr_sala,token,MAXNOMB);
+            strncpy(sala->vctr_sala[sala->numreg].nombr_sala,token,MAXNOMB-1);
+            sala->vctr_sala[sala->numreg].nombr_sala[MAXNOMB-1]='\0';
         }
         
         //SI HIRIERA FALTA MAXNOMB -1
@@ -40,12 +42,14 @@ int cargar_salas (vector_sala *sala){
         //el token sirve para ir ubicandonos en el .txt
         token=strtok(NULL,"-");
         if (token != NULL){
-            strncpy(sala->vctr_sala[sala->numreg].type_sala,token,MAXTYPE);
+            strncpy(sala->vctr_sala[sala->numreg].type_sala,token,MAXTYPE-1);
+            sala->vctr_sala[sala->numreg].type_sala[MAXTYPE-1]='\0';
         }
 
         token=strtok(NULL,"\n");
         if (token != NULL){
-            strncpy(sala->vctr_sala[sala->numreg].desrc_sala,token,MAXDESC);
+            strncpy(sala->vctr_sala[sala->numreg].desrc_sala,token,MAXDESC-1);
+            sala->vctr_sala[sala->numreg].desrc_sala[MAXDESC-1]='\0';
         }
         sala->numreg++;
     }
@@ -55,16 +59,23 @@ int cargar_salas (vector_sala *sala){
 }
 //int x es para dirigirme a la sala la cual podemos estar.
 
-int describir_sala(vector_conex *conex,vector_sala *sala,int x){
-    if (strcmp("SALIDA",sala->vctr_sala[x-1].type_sala)){
-        printf("ENHORABUENA !");
-        return 2;// Salida exitosa del programa y vuelta al menú principal.
+int describir_salas(vector_sala sala, int id_sala){
+    int i;
+
+    for (i = 0; i < sala.numreg; i++){
+        if (sala.vctr_sala[i].id_sala == id_sala){
+            printf("\n=== %s ===\n", sala.vctr_sala[i].nombr_sala);
+            printf("Tipo: %s\n", sala.vctr_sala[i].type_sala);
+            printf("%s\n", sala.vctr_sala[i].desrc_sala);
+            return 1;
+        }
     }
-    printf("%s",sala->vctr_sala[x-1].desrc_sala);
-    return 1;
+
+    printf("\nNo se ha encontrado la sala con id %d\n", id_sala);
+    return 0;
 }
 //id actual de la sala
-int entrar_otra_sala(vector_conex *conex, vector_sala *sala, int *salactual){
+/*int entrar_otra_sala(vector_conex *conex, vector_sala *sala, int *salactual){
     int i;
     int j=0;
     int x;
@@ -72,19 +83,22 @@ int entrar_otra_sala(vector_conex *conex, vector_sala *sala, int *salactual){
     int k;
     int *guarda_sala;
     guarda_sala=(int *)malloc(1*sizeof(int));
-    pritnf("a partir de aqui podemos ir a las siguientes salas:\n");
+    pritnf("\nA partir de aqui podemos ir a las siguientes salas:\n");
     for (i=0;i<conex->conexreg;i++){
         if(*salactual==conex->conexvec[i].id_origen){
-            guarda_sala=(int *)realloc(guarda_sala,i*sizeof(int));
-
-            printf(" %s, numero %d",sala->vctr_sala[conex->conexvec[i].id_destino-1].nombr_sala,sala->vctr_sala[conex->conexvec[i].id_destino-1].id_sala);
-            /*guarda_sala[j]=sala->vctr_sala[conex->conexvec[i].id_origen-1].id_sala;
-            j++;*/
+            printf(" -> %s (Sala %d) [%s]\n",sala->vctr_sala[conex->conexvec[i].id_destino-1].nombr_sala, 
+                sala->vctr_sala[conex->conexve
+                c[i].id_destino-1].id_sala,
+                conex->conexvec[i].estado);
         }
     }
     do{
         printf("\nescribe el numero de las sala a la que quiere viajar correspondientes: ");
-        scanf("%d",&x);
+        if (scanf("%d", &x) != 1) { 
+            while(getchar() != '\n'); 
+            printf("Entrada no valida. Escribe un numero.\n");
+            continue;
+        }
         for (i = 0; i < conex->conexreg; i++) {
             if (*salactual == conex->conexvec[i].id_origen && x == conex->conexvec[i].id_destino) {
                 existe = 1; // La conexión existe
@@ -105,7 +119,7 @@ int entrar_otra_sala(vector_conex *conex, vector_sala *sala, int *salactual){
         }
     }while(existe==0);
     return 1;
-}
+}*/
     /*for (k<0;k<=j;k++){
         if (scanf());
     }*/
