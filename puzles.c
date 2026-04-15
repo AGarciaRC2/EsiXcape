@@ -1,6 +1,6 @@
 #include "puzles.h"
 
-void carga_puzles(puzle **p){
+void cargar_puzles(puzle **p){
 
     FILE *f = fopen("puzles.txt", "r");
 
@@ -22,7 +22,7 @@ void carga_puzles(puzle **p){
             free(*p);
    
             fclose(f);
-            return -1;
+            return ;
         }
 
         *p = temp;

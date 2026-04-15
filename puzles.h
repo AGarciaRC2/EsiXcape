@@ -28,7 +28,7 @@ typedef struct{
 //cabecera: carga_puzles(puzle puzles[20])
 //precondición: Entra un array de puzles vacío.
 //postcondición: carga todos los datos en las estructuras/registros, desde el archivo de texto "puzles.txt".
-void carga_puzles(puzle **p);
+void cargar_puzles(puzle **p);
 
 //cabecera: mostrar_puzle(puzle puzles[20], char* id_puzle)
 //precondición: Entra un array de puzles y un id de un puzle existente.
