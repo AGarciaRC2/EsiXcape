@@ -1,6 +1,6 @@
 #include "objetos.h"
 
-//---> GESTIÓN DE MEMORIA: <---
+//---> GESTION DE MEMORIA: <---
 void cargar_objetos(obj_vect *o) {
 	FILE *f_obj;
 	char filename[] = "Objetos.txt";
@@ -15,7 +15,7 @@ void cargar_objetos(obj_vect *o) {
 		exit(1);
 	}
 	
-	//Comprobar si el archivo está vacío
+	//Comprobar si el archivo esta vacio
 	if (fseek(f_obj, 0, SEEK_END) != 0) {
 		printf("Error al posicionarse en el archivo de objetos");
 		fclose(f_obj);
@@ -25,7 +25,7 @@ void cargar_objetos(obj_vect *o) {
 	long file_size = ftell(f_obj);
 	
 	if (file_size == -1L) {
-		printf("Error al obtener el tamaño del archivo de objetos");
+		printf("Error al obtener el tamano del archivo de objetos");
 		fclose(f_obj);
 		exit(1);
 	}

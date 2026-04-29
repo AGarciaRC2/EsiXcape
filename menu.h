@@ -19,8 +19,8 @@ static int registrar_jugador(jug_vect *, const char *, const char *, const char 
 
 static int autenticar_o_registrar(jug_vect *);
 
-//PRECONDICIÓN: Las estructuras de jugadores deben de estar inicializadas antes de ser pasadas por referencia a la función
-//POSCONDICIÓN: Se ejecuta un menú principal que te deja moverte entre tres opciones posibles: Nueva partida, Cargar partida, Salir
+//PRECONDICION: Las estructuras de jugadores deben de estar inicializadas antes de ser pasadas por referencia a la funcion
+//POSCONDICION: Se ejecuta un menu principal que te deja moverte entre tres opciones posibles: Nueva partida, Cargar partida, Salir
 int menu_principal(jug_vect *);
 
 #endif

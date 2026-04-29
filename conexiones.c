@@ -9,7 +9,7 @@ int cargar_conex(vector_conex *conex){
     conex->conexreg=0;
     
     // inicializamos a NULL en lugar de hacer malloc. IMPORTANTE (por lo que sea)
-    // Así el primer realloc se encarga de crear el espacio correctamente.
+    // Asi el primer realloc se encarga de crear el espacio correctamente.
     conex->conexvec = NULL;
     
     f_conex=fopen("Conexiones.txt","r");
@@ -46,8 +46,8 @@ int cargar_conex(vector_conex *conex){
             conex->conexvec[conex->conexreg].id_destino=atoi(token);
         }
         
-        //el ultimo dato será un salto de linea
-        // hay que usar NULL, si uso "cadena" la lectura se reiniciará.
+        //el ultimo dato sera un salto de linea
+        // hay que usar NULL, si uso "cadena" la lectura se reiniciara.
         token=strtok(NULL,"-");
         if (token!=NULL){
             // ajustado a MAXEST y asignado al atributo correcto ('estado', no 'id_conexion')
@@ -57,7 +57,7 @@ int cargar_conex(vector_conex *conex){
         }
         token=strtok(NULL,"\n");
         if (token != NULL){
-            // Copiamos el texto de la condición (ej: "0", "P01", "OB03")
+            // Copiamos el texto de la condicion (ej: "0", "P01", "OB03")
             strncpy(conex->conexvec[conex->conexreg].condicion, token, MAXC - 1);
             // Aseguramos el terminador nulo
             conex->conexvec[conex->conexreg].condicion[MAXC- 1] = '\0';
@@ -80,7 +80,7 @@ int cargar_conex(vector_conex *conex){
 
 void escribir_conexiones(vector_conex conex, int num_salas) {
     printf("Conexiones:\n");
-    // Validar que los índices de origen y destino estén dentro del rango de salas
+    // Validar que los indices de origen y destino esten dentro del rango de salas
     if (conex.conexvec[num_salas].id_origen >= 0 && conex.conexvec[num_salas].id_origen < num_salas &&
         conex.conexvec[num_salas].id_destino >= 0 && conex.conexvec[num_salas].id_destino < num_salas) {
         printf("ID: %s | Origen: %d | Destino: %d | Estado: %s\n",
@@ -89,7 +89,7 @@ void escribir_conexiones(vector_conex conex, int num_salas) {
                 conex.conexvec[num_salas].id_destino,
                 conex.conexvec[num_salas].estado);
     } else {
-        printf("Conexión ID: %s tiene índices de origen o destino fuera de rango.\n",
+        printf("Conexion ID: %s tiene indices de origen o destino fuera de rango.\n",
                 conex.conexvec[num_salas].id_conexion);
     }
 }

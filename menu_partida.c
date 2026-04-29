@@ -70,6 +70,50 @@ static const char *nombre_sala_por_id(vector_sala *salas, int id_sala) {
     return "Desconocida";
 }
 
+char *obtener_nombre_condicion(const char *id_condicion) {
+    static char resultado[64];
+    
+    if (id_condicion == NULL || strcmp(id_condicion, "0") == 0) {
+        strcpy(resultado, "una condicion");
+        return resultado;
+    }
+    
+    // Si empieza con "P", es un puzle
+    if (id_condicion[0] == 'P') {
+        puzle *puzles = NULL;
+        int indice = -1;
+        
+        cargar_puzles(&puzles);
+        if (puzles != NULL) {
+            indice = buscar_puzle(puzles, (char *)id_condicion);
+            if (indice != -1) {
+                snprintf(resultado, sizeof(resultado), "el puzle: %s", puzles[indice].nombre);
+                free(puzles);
+                return resultado;
+            }
+            free(puzles);
+        }
+    }
+    // Si empieza con "OB", es un objeto
+    else if (strncmp(id_condicion, "OB", 2) == 0) {
+        obj_vect objs;
+        int i;
+        
+        cargar_objetos(&objs);
+        for (i = 0; i < 5; i++) {
+            if (strcmp(objs.obj[i].Id_obj, id_condicion) == 0) {
+                snprintf(resultado, sizeof(resultado), "el objeto: %s", objs.obj[i].Nomb_obj);
+                return resultado;
+            }
+        }
+    }
+    
+    // Si no encuentra nada, devuelve el ID original
+    strncpy(resultado, id_condicion, sizeof(resultado) - 1);
+    resultado[sizeof(resultado) - 1] = '\0';
+    return resultado;
+}
+
 static void imprimir_descripcion_sala_actual(partida *p) {
     vector_sala salas = {NULL, 0};
     int i;
@@ -189,7 +233,7 @@ static void examinar(partida *p) {
                        nombre_sala_por_id(&salas, conexiones_base.conexvec[i].id_destino),
                        p->conexiones[j].estado);
                 if (strcmp(p->conexiones[j].estado, "Bloqueada") == 0) {
-                    printf(" (Condicion: %s)", conexiones_base.conexvec[i].condicion);
+                    printf(" (Necesita: %s)", obtener_nombre_condicion(conexiones_base.conexvec[i].condicion));
                 }
                 printf("\n");
                 hay_salidas = 1;
@@ -205,7 +249,7 @@ static void examinar(partida *p) {
     pausar_pantalla();
 }
 
-// Anterior aunque no exista una conexión explícita de vuelta.
+// Anterior aunque no exista una conexion explicita de vuelta.
 static void entrar_en_otra_sala(partida *p) {
     vector_conex conexiones_base = {NULL, 0};
     vector_sala salas = {NULL, 0};
@@ -236,7 +280,7 @@ static void entrar_en_otra_sala(partida *p) {
                        nombre_sala_por_id(&salas, conexiones_base.conexvec[i].id_destino),
                        p->conexiones[j].estado);
                 if (strcmp(p->conexiones[j].estado, "Bloqueada") == 0) {
-                    printf(" (Condicion: %s)", conexiones_base.conexvec[i].condicion);
+                    printf(" (Necesita: %s)", obtener_nombre_condicion(conexiones_base.conexvec[i].condicion));
                 }
                 printf("\n");
             }
@@ -276,7 +320,7 @@ static void entrar_en_otra_sala(partida *p) {
                     p->id_sala_actual = destino;
                     printf("\nHas entrado en la sala %02d.\n", destino);
                 } else {
-                    printf("\nLa conexion está bloqueada. Necesitas: %s\n", conexiones_base.conexvec[i].condicion);
+                    printf("\nLa conexion esta bloqueada. Necesitas: %s\n", obtener_nombre_condicion(conexiones_base.conexvec[i].condicion));
                 }
             }
             break;
@@ -360,7 +404,7 @@ static void soltar_objeto(partida *p, jug_vect *j, int id_jugador) {
     printf("=== SOLTAR OBJETO ===\n\n");
 
     if (j->jug[id_jugador].Id_obj == NULL || j->jug[id_jugador].Id_obj[0] == '\0') {
-        printf("Tu inventario está vacio.\n");
+        printf("Tu inventario esta vacio.\n");
         pausar_pantalla();
         return;
     }
@@ -389,7 +433,7 @@ static void soltar_objeto(partida *p, jug_vect *j, int id_jugador) {
     free(inv);
 
     if (count == 0) {
-        printf("Tu inventario está vacio.\n");
+        printf("Tu inventario esta vacio.\n");
         pausar_pantalla();
         return;
     }
@@ -469,7 +513,7 @@ static void usar_objeto(partida *p, jug_vect *j, int id_jugador) {
     printf("=== USAR OBJETO ===\n\n");
 
     if (j->jug[id_jugador].Id_obj == NULL || j->jug[id_jugador].Id_obj[0] == '\0') {
-        printf("Tu inventario está vacio.\n");
+        printf("Tu inventario esta vacio.\n");
         pausar_pantalla();
         return;
     }
@@ -543,11 +587,11 @@ static void resolver_puzle(partida *p) {
     int desbloqueado = 0;
 
     limpiar_pantalla();
-    printf("=== RESOLVER PUZLE / INTRODUCIR CÓDIGO ===\n\n");
+    printf("=== RESOLVER PUZLE / INTRODUCIR CODIGO ===\n\n");
 
     cargar_puzles(&puzles);
     if (puzles == NULL || !cargar_conex(&conexiones_base)) {
-        printf("No se pudo cargar la información del puzle.\n");
+        printf("No se pudo cargar la informacion del puzle.\n");
         free(puzles);
         free(conexiones_base.conexvec);
         pausar_pantalla();
@@ -571,7 +615,7 @@ static void resolver_puzle(partida *p) {
 
     indice_estado = buscar_indice_puzle_estado(p, puzles[encontrado].id_puzle);
     if (indice_estado != -1 && strcmp(p->puzles[indice_estado].estado, "Resuelto") == 0) {
-        printf("Este puzle ya está resuelto.\n");
+        printf("Este puzle ya esta resuelto.\n");
         free(puzles);
         free(conexiones_base.conexvec);
         pausar_pantalla();
@@ -579,9 +623,9 @@ static void resolver_puzle(partida *p) {
     }
 
     printf("Puzle: %s\n", puzles[encontrado].nombre);
-    printf("Descripción: %s\n", puzles[encontrado].descripcion);
+    printf("Descripcion: %s\n", puzles[encontrado].descripcion);
     printf("Tipo: %s\n\n", puzles[encontrado].tipo);
-    leer_texto_simple("Introduce la solución: ", respuesta, sizeof(respuesta));
+    leer_texto_simple("Introduce la solucion: ", respuesta, sizeof(respuesta));
 
     if (comprobar_solucion_puzle(puzles, puzles[encontrado].id_puzle, respuesta) == 1) {
         if (indice_estado != -1) {
@@ -657,7 +701,7 @@ int mostrar_partida(partida *partidas, int num_partidas, jug_vect *j, int indice
         printf("5. Soltar objeto\n");
         printf("6. Inventario\n");
         printf("7. Usar objeto\n");
-        printf("8. Resolver puzle / introducir código\n");
+        printf("8. Resolver puzle / introducir codigo\n");
         printf("9. Guardar partida\n");
         printf("10. Volver al menu principal\n");
         printf("0. Salir del juego\n\n");

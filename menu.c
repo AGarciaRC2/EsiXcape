@@ -76,7 +76,7 @@ static int autenticar_o_registrar(jug_vect *j) {
 			limpiar_buffer_entrada();
 			continue;
 		}
-		printf("Contrasena: ");
+		printf("Contrasenna: ");
 		if (scanf("%9s", contrasena) != 1) {
 			limpiar_buffer_entrada();
 			continue;
@@ -84,8 +84,8 @@ static int autenticar_o_registrar(jug_vect *j) {
 		limpiar_buffer_entrada();
 
 		if (strlen(usuario) > 10 || strlen(contrasena) > 8) {
-			printf("\nUsuario o contrasena demasiado largos.\n");
-			printf("Maximos: usuario 10, contrasena 8 caracteres.\n");
+			printf("\nUsuario o contrasenna demasiado largos.\n");
+			printf("Maximimos: usuario 10, contrasenna 8 caracteres.\n");
 			printf("Pulsa Enter para continuar...");
 			getchar();
 			continue;
@@ -96,7 +96,7 @@ static int autenticar_o_registrar(jug_vect *j) {
 			return idx;
 		}
 
-		printf("\nUsuario o contrasena incorrectos.\n");
+		printf("\nUsuario o contrasenna incorrectos.\n");
 		printf("Deseas registrarte con un nuevo usuario? (S/N): ");
 		if (scanf(" %c", &opcion) != 1) {
 			limpiar_buffer_entrada();
@@ -143,7 +143,7 @@ static int autenticar_o_registrar(jug_vect *j) {
 				continue;
 			}
 
-			printf("Contrasena (Contrasena): ");
+			printf("Contrasenna (Contrasenna): ");
 			if (fgets(contrasena, sizeof(contrasena), stdin) == NULL) {
 				limpiar_buffer_entrada();
 				continue;

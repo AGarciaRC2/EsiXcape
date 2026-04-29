@@ -17,7 +17,7 @@ int main() {
 	cargar_jugadores(&j);
 	cargar_objetos(&o);
 	
-	// Ejecutar menú
+	// Ejecutar menu
 	resultado = menu_principal(&j);
 	
 	// Guardar datos finales

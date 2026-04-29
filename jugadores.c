@@ -1,6 +1,6 @@
 #include "jugadores.h"
 
-//---> GESTIÓN DE MEMORIA: <---
+//---> GESTION DE MEMORIA: <---
 void cargar_jugadores(jug_vect *j) {
 	FILE *f_jug;
 	char filename[] = "Jugadores.txt";
@@ -18,7 +18,7 @@ void cargar_jugadores(jug_vect *j) {
 		exit(1);
 	}
 	
-	//Comprobar si el archivo está vacío
+	//Comprobar si el archivo esta vacio
 	if (fseek(f_jug, 0, SEEK_END) != 0) {
 		printf("Error al posicionarse en el archivo de jugadores");
 		fclose(f_jug);
@@ -28,14 +28,14 @@ void cargar_jugadores(jug_vect *j) {
 	long file_size = ftell(f_jug);
 	
 	if (file_size == -1L) {
-		printf("Error al obtener el tamaño del archivo de jugadores");
+		printf("Error al obtener el tamano del archivo de jugadores");
 		fclose(f_jug);
 		exit(1);
 	}
 	
 	rewind(f_jug);
 	
-	//Contar número de jugadores
+	//Contar numero de jugadores
 	while(fgets(cad_linea, sizeof(cad_linea), f_jug) != NULL) {
 		if (cad_linea[0] != '\n' && cad_linea[0] != '\r') {
 			j->num_jug++;

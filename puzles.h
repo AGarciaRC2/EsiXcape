@@ -23,28 +23,28 @@ typedef struct{
     char solucion[max_solucion_puzle];
 }puzle;
 
-//precondición: Entra un array de puzles vacío.
-//postcondición: carga todos los datos en las estructuras/registros, desde el archivo de texto "puzles.txt".
+//precondicion: Entra un array de puzles vacio.
+//postcondicion: carga todos los datos en las estructuras/registros, desde el archivo de texto "puzles.txt".
 void cargar_puzles(puzle **);
 
-//precondición: Entra un array de puzles y un id de un puzle existente.
-//postcondición: Imprime por pantalla el puzle a averiguar.
+//precondicion: Entra un array de puzles y un id de un puzle existente.
+//postcondicion: Imprime por pantalla el puzle a averiguar.
 void mostrar_puzle(puzle *, int);
 
-//precondición: Entra el puzle.
-//postcondición: Imprime por pantalla la solución del puzle dado.
+//precondicion: Entra el puzle.
+//postcondicion: Imprime por pantalla la solucion del puzle dado.
 void mostrar_solucion_puzle(puzle *, int);
 
-//precondición: Entra un array de puzles y un id de puzle.
-//postcondición: Devuelve el índice del puzle en el array o -1 si no se encuentra.
+//precondicion: Entra un array de puzles y un id de puzle.
+//postcondicion: Devuelve el indice del puzle en el array o -1 si no se encuentra.
 int buscar_puzle(puzle *, char *);
 
-//Precondición: Entra un array de puzles, un id de puzle y una respuesta dada por el jugador.
-//Postcondición: Devuelve 1 si la respuesta es correcta, 0 si es incorrecta y -1 si el puzle no existe o la respuesta es inválida.
+//Precondicion: Entra un array de puzles, un id de puzle y una respuesta dada por el jugador.
+//Postcondicion: Devuelve 1 si la respuesta es correcta, 0 si es incorrecta y -1 si el puzle no existe o la respuesta es invalida.
 int comprobar_solucion_puzle(puzle *, char *, char *);
 
-//precondición: Entra una cadena de caracteres.
-//postcondición: Elimina los caracteres \r y \n, reemplazándolos por el carácter nulo, para que funcione el strcmp.   
+//precondicion: Entra una cadena de caracteres.
+//postcondicion: Elimina los caracteres \r y \n, reemplazandolos por el caracter nulo, para que funcione el strcmp.   
 void limpiar_cadena(char *);
 
 

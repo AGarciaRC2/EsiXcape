@@ -35,68 +35,68 @@ typedef struct{
 } puzle_partida;
 
 typedef struct{
-    int id_jugador;          		// Identificador real del jugador dueño de la partida
+    int id_jugador;          		// Identificador real del jugador duenno de la partida
     int id_sala_actual;      		// Sala en la que se encuentra el jugador
-    int id_sala_anterior;    		// Última sala visitada, para permitir volver atrás
-    objeto_partida *objetos; 		// Estado dinámico de los objetos de la partida
-    conexion_partida *conexiones; 	// Estado dinámico de las conexiones de la partida
-    puzle_partida *puzles;   		// Estado dinámico de los puzles de la partida
+    int id_sala_anterior;    		// Ultima sala visitada, para permitir volver atras
+    objeto_partida *objetos; 		// Estado dinamico de los objetos de la partida
+    conexion_partida *conexiones; 	// Estado dinamico de las conexiones de la partida
+    puzle_partida *puzles;   		// Estado dinamico de los puzles de la partida
 } partida;
 
-//PRECONDICIÓN: p debe apuntar a un array de puzles terminado en centinela.
-//POSCONDICIÓN: Devuelve el número de puzles existentes.
+//PRECONDICION: p debe apuntar a un array de puzles terminado en centinela.
+//POSCONDICION: Devuelve el numero de puzles existentes.
 static int contar_puzles_array(puzle *);
 
-//PRECONDICIÓN: salas debe apuntar a una estructura de salas ya cargada.
-//POSCONDICIÓN: Devuelve el id de la sala marcada como INICIAL. Si no existe, devuelve 1.
+//PRECONDICION: salas debe apuntar a una estructura de salas ya cargada.
+//POSCONDICION: Devuelve el id de la sala marcada como INICIAL. Si no existe, devuelve 1.
 static int buscar_sala_inicial(vector_sala *);
 
-//PRECONDICIÓN: destino debe ser un puntero válido.
-//POSCONDICIÓN: Copia en memoria el estado base del juego para ese jugador: sala inicial, conexiones, objetos y puzles en su estado inicial. Devuelve 1 si todo va bien y 0 en caso de error.
+//PRECONDICION: destino debe ser un puntero valido.
+//POSCONDICION: Copia en memoria el estado base del juego para ese jugador: sala inicial, conexiones, objetos y puzles en su estado inicial. Devuelve 1 si todo va bien y 0 en caso de error.
 static int inicializar_partida_base(partida *, int);
 
-//PRECONDICIÓN: valor debe contener una línea del tipo "OB01-Inventario" o "OB01-03".
-//POSCONDICIÓN: Actualiza la localización del objeto correspondiente dentro de la partida.
+//PRECONDICION: valor debe contener una linea del tipo "OB01-Inventario" o "OB01-03".
+//POSCONDICION: Actualiza la localizacion del objeto correspondiente dentro de la partida.
 static void aplicar_linea_objeto(partida *, char *);
 
-//PRECONDICIÓN: valor debe contener una línea del tipo "C01-Activa".
-//POSCONDICIÓN: Actualiza el estado de la conexión correspondiente.
+//PRECONDICION: valor debe contener una linea del tipo "C01-Activa".
+//POSCONDICION: Actualiza el estado de la conexion correspondiente.
 static void aplicar_linea_conexion(partida *, char *);
 
-//PRECONDICIÓN: valor debe contener una línea del tipo "P01-Resuelto".
-//POSCONDICIÓN: Actualiza el estado del puzle correspondiente.
+//PRECONDICION: valor debe contener una linea del tipo "P01-Resuelto".
+//POSCONDICION: Actualiza el estado del puzle correspondiente.
 static void aplicar_linea_puzle(partida *, char *);
 
-//PRECONDICIÓN: Entra una cadena válida.
-//POSCONDICIÓN: Elimina los caracteres '\n' y '\r' de la cadena.
+//PRECONDICION: Entra una cadena valida.
+//POSCONDICION: Elimina los caracteres '\n' y '\r' de la cadena.
 void limpiar_cadena_partida(char *);
 
-//PRECONDICIÓN: Entra el vector de partidas y el identificador real del jugador.
-//POSCONDICIÓN: Devuelve el índice de la partida del jugador o -1 si no existe.
+//PRECONDICION: Entra el vector de partidas y el identificador real del jugador.
+//POSCONDICION: Devuelve el indice de la partida del jugador o -1 si no existe.
 int buscar_indice_partida(partida *, int, int);
 
-//PRECONDICIÓN: Entran un vector de partidas y el identificador real del jugador.
-//POSCONDICIÓN: Devuelve 1 si el jugador tiene partida guardada y 0 en caso contrario.
+//PRECONDICION: Entran un vector de partidas y el identificador real del jugador.
+//POSCONDICION: Devuelve 1 si el jugador tiene partida guardada y 0 en caso contrario.
 int existe_jugador_partida(partida *, int, int);
 
-//PRECONDICIÓN: Entra un puntero a puntero de partida.
-//POSCONDICIÓN: Carga los datos del fichero "partida.txt" en memoria dinámica y devuelve el número de partidas cargadas.
+//PRECONDICION: Entra un puntero a puntero de partida.
+//POSCONDICION: Carga los datos del fichero "partida.txt" en memoria dinamica y devuelve el numero de partidas cargadas.
 int cargar_partida(partida **);
 
-//PRECONDICIÓN: Entran un fichero abierto para escritura y una partida válida.
-//POSCONDICIÓN: Escribe la partida en el formato correcto de Partida.txt.
+//PRECONDICION: Entran un fichero abierto para escritura y una partida valida.
+//POSCONDICION: Escribe la partida en el formato correcto de Partida.txt.
 void escribir_una_partida(FILE *, partida *);
 
-//PRECONDICIÓN: Entran todas las partidas cargadas en memoria.
-//POSCONDICIÓN: Guarda en partida.txt el estado actual de todas las partidas.
+//PRECONDICION: Entran todas las partidas cargadas en memoria.
+//POSCONDICION: Guarda en partida.txt el estado actual de todas las partidas.
 void guardar_partida(partida *, int, jugadores);
 
-//PRECONDICIÓN: Entran el vector de partidas y el índice del jugador autenticado.
-//POSCONDICIÓN: Crea una partida nueva desde el estado base del juego. Si el jugador ya tenía partida, la reinicia desde la sala inicial. Devuelve el índice de la partida creada/reiniciada.
+//PRECONDICION: Entran el vector de partidas y el indice del jugador autenticado.
+//POSCONDICION: Crea una partida nueva desde el estado base del juego. Si el jugador ya tenia partida, la reinicia desde la sala inicial. Devuelve el indice de la partida creada/reiniciada.
 int crear_partida_nueva(partida **, int *, jug_vect *, int);
 
-//PRECONDICIÓN: Entra una partida válida y el índice del jugador autenticado.
-//POSCONDICIÓN: Actualiza el campo Id_obj del jugador a partir del estado real de la partida.
+//PRECONDICION: Entra una partida valida y el indice del jugador autenticado.
+//POSCONDICION: Actualiza el campo Id_obj del jugador a partir del estado real de la partida.
 void sincronizar_inventario_desde_partida(partida *, jug_vect *, int);
 
 //PRECONDICIÓN: Entra una partida válida.

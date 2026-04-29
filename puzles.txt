@@ -1,8 +1,8 @@
 P01-Puzle Fibonacci-02-Código-Escribe los 4 primeros números de la serie de fibonacci-1123
 P02-Puzle Primos-05-Código-Introduce en orden ascendente los primos de un digito-2357
 P03-Puzle Sonido-03-Palabra-Desaparezco cuando me nombras, qué soy?-SILENCIO
-P04-Puzle Luna-04-Código-Escribe el anno del primer alunizaje-1969
-P05-Puzle Cristobal-06-Código-Escribe el anno en el que se descubrió américa-1492
+P04-Puzle Luna-04-Codigo-Escribe el anno del primer alunizaje-1969
+P05-Puzle Cristobal-06-Codigo-Escribe el anno en el que se descubrio america-1492
 P06-Puzle Animal-07-Palabra-Unico animal con las 5 letras-MURCIELAGO
 P07-Puzle Metales-08-Palabra-Oro parece y plata no es, que es?-PLATANO
 P08-Puzle Serie-09-Código-Sigue la siguiente serie: 1234,2345,3456,...-4567

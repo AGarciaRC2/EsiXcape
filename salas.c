@@ -16,7 +16,7 @@ int cargar_salas (vector_sala *sala){
     if (f_sala == NULL) {
         return 0; // Error al abrir el fichero
     }
-    //sala vctr sala inicializar a nulo así puedes hacer realloc 
+    //sala vctr sala inicializar a nulo asi puedes hacer realloc 
     while(fgets(cadena,sizeof(cadena), f_sala)!=NULL){
         //vamos leyendo poco a poco el archivo en el orden especificado.
         sala->vctr_sala = (sala_str *) realloc(sala->vctr_sala, (sala->numreg+ 1) * sizeof(sala_str));
